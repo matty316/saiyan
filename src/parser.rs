@@ -27,6 +27,10 @@ impl Parser {
         self.current_token = self.peek_token.clone();
         self.peek_token = self.lexer.next_token();
     }
+
+    fn parse_program(&self) -> Option<Program> {
+        None
+    }
 }
 
 #[test]
@@ -35,15 +39,17 @@ fn test_let_statement() {
         let x = 5;
         let y = 10;
         let foobar = 838383;
-    ";
+    ".to_string();
 
     let lexer = Lexer::new(input);
     let parser = Parser::new(lexer);
 
     let program = parser.parse_program();
 
-    assert!(program != None);
-    assert_eq!(program.statments.len(), 3);
-
-
+    match program {
+        Some(p) => {
+            assert_eq!(p.statements.len(), 3);
+        }
+        None => assert!(false),
+    }
 }

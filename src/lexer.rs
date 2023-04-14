@@ -9,7 +9,7 @@ pub struct Lexer {
 }
 
 impl Lexer {
-    #[must_use] fn new(input: String) -> Self {
+    #[must_use] pub fn new(input: String) -> Self {
         Self {
             input: input.as_bytes().to_vec(),
             position: 0,

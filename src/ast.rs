@@ -1,19 +1,19 @@
 use crate::token::Token;
 
-trait Node {
+pub trait Node {
     fn token_literal(&self) -> String;
 }
 
-trait Statement: Node {
+pub trait Statement: Node {
     fn statement_node(&self);
 }
 
-trait Expression: Node {
+pub trait Expression: Node {
     fn expression_node(&self);
 }
 
-struct Program {
-    statements: Vec<Box<dyn Statement>>,
+pub struct Program {
+    pub statements: Vec<Box<dyn Statement>>,
 }
 
 impl Program {
@@ -26,7 +26,7 @@ impl Program {
     }
 }
 
-struct LetStatement {
+pub struct LetStatement {
     token: Token,
     name: Identifier,
     value: Box<dyn Expression>,
@@ -42,7 +42,7 @@ impl Statement for LetStatement {
     fn statement_node(&self) {}
 }
 
-struct Identifier {
+pub struct Identifier {
     token: Token,
     value: String,
 }
