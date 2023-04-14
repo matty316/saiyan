@@ -35,7 +35,6 @@ impl Lexer {
         match self.ch {
             b'=' => {
                 if self.peek() == b'=' {
-                    let ch = self.ch;
                     self.read_char();
                     tok = Token { token_type: TokenType::EQ, literal: "==".to_string() };
                 } else {
@@ -44,7 +43,6 @@ impl Lexer {
             }
             b'!' => {
                 if self.peek() == b'=' {
-                    let ch = self.ch;
                     self.read_char();
                     tok = Token { token_type: TokenType::NotEQ, literal: "!=".to_string() };
                 } else {
