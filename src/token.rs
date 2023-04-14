@@ -10,6 +10,7 @@ pub enum TokenType {
 
     Ident, Int, Assign, Plus, Minus, Bang, Star, Slash, LT, GT,
 
-    Comma, Semicolon, LParen, RParen, LBrace, RBrace, Function, Let
+    Comma, Semicolon, LParen, RParen, LBrace, RBrace, Function, Let,
+    True, False, If, Else, Return
 }
  

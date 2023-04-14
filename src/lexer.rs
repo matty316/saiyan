@@ -105,7 +105,12 @@ impl Lexer {
 fn keywords() -> HashMap<String, TokenType> {
     HashMap::from([
         ("fn".to_string(), TokenType::Function),
-        ("let".to_string(), TokenType::Let)
+        ("let".to_string(), TokenType::Let),
+        ("true".to_string(), TokenType::True),
+        ("false".to_string(), TokenType::False),
+        ("if".to_string(), TokenType::If),
+        ("else".to_string(), TokenType::Else),
+        ("return".to_string(), TokenType::Return ),
     ])
 }
 
@@ -128,6 +133,12 @@ fn test_next_token() {
     let result = add(five, ten);
     !-/*5;
     5 < 10 > 5;
+
+    if (5 < 10) {
+        return true;
+    } else {
+        return false;
+    }
     ".to_string();
     let tests = vec![
         Token { token_type: TokenType::Let, literal: "let".to_string() },
@@ -178,6 +189,23 @@ fn test_next_token() {
         Token { token_type: TokenType::GT, literal: ">".to_string() },
         Token { token_type: TokenType::Int, literal: "5".to_string() },
         Token { token_type: TokenType::Semicolon, literal: ";".to_string() },
+        Token { token_type: TokenType::If, literal: "if".to_string() },
+        Token { token_type: TokenType::LParen, literal: "(".to_string() },
+        Token { token_type: TokenType::Int, literal: "5".to_string() },
+        Token { token_type: TokenType::LT, literal: "<".to_string() },
+        Token { token_type: TokenType::Int, literal: "10".to_string() },
+        Token { token_type: TokenType::RParen, literal: ")".to_string() },
+        Token { token_type: TokenType::LBrace, literal: "{".to_string() },
+        Token { token_type: TokenType::Return, literal: "return".to_string() },
+        Token { token_type: TokenType::True, literal: "true".to_string() },
+        Token { token_type: TokenType::Semicolon, literal: ";".to_string() },
+        Token { token_type: TokenType::RBrace, literal: "}".to_string() },
+        Token { token_type: TokenType::Else, literal: "else".to_string() },
+        Token { token_type: TokenType::LBrace, literal: "{".to_string() },
+        Token { token_type: TokenType::Return, literal: "return".to_string() },
+        Token { token_type: TokenType::False, literal: "false".to_string() },
+        Token { token_type: TokenType::Semicolon, literal: ";".to_string() },
+        Token { token_type: TokenType::RBrace, literal: "}".to_string() },
         Token { token_type: TokenType::EOF, literal: String::new() },
     ];
 
