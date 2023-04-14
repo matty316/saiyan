@@ -4,10 +4,12 @@ pub struct Token {
     pub literal: String,
 }
 
-#[derive(PartialEq, Debug)]
+#[derive(PartialEq, Debug, Clone, Copy)]
 pub enum TokenType {
     Illegal, EOF,
 
-    Ident, Int, Assign, Plus, Comma, Semicolon, LParen, RParen,
-    LBrace, RBrace, Function, Let
+    Ident, Int, Assign, Plus, Minus, Bang, Star, Slash, LT, GT,
+
+    Comma, Semicolon, LParen, RParen, LBrace, RBrace, Function, Let
 }
+ 
