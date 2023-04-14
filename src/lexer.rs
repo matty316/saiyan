@@ -33,14 +33,30 @@ impl Lexer {
         let tok: Token;
         self.skip_whitespace();
         match self.ch {
-            b'=' => tok = Self::new_token(TokenType::Assign, self.ch),
+            b'=' => {
+                if self.peek() == b'=' {
+                    let ch = self.ch;
+                    self.read_char();
+                    tok = Token { token_type: TokenType::EQ, literal: "==".to_string() };
+                } else {
+                    tok = Self::new_token(TokenType::Assign, self.ch);
+                }
+            }
+            b'!' => {
+                if self.peek() == b'=' {
+                    let ch = self.ch;
+                    self.read_char();
+                    tok = Token { token_type: TokenType::NotEQ, literal: "!=".to_string() };
+                } else {
+                    tok = Self::new_token(TokenType::Bang, self.ch);
+                }
+            }
             b';' => tok = Self::new_token(TokenType::Semicolon, self.ch),
             b'(' => tok = Self::new_token(TokenType::LParen, self.ch),
             b')' => tok = Self::new_token(TokenType::RParen, self.ch),
             b',' => tok = Self::new_token(TokenType::Comma, self.ch),
             b'+' => tok = Self::new_token(TokenType::Plus, self.ch),
             b'-' => tok = Self::new_token(TokenType::Minus, self.ch),
-            b'!' => tok = Self::new_token(TokenType::Bang, self.ch),
             b'/' => tok = Self::new_token(TokenType::Slash, self.ch),
             b'*' => tok = Self::new_token(TokenType::Star, self.ch),
             b'<' => tok = Self::new_token(TokenType::LT, self.ch),
@@ -100,6 +116,14 @@ impl Lexer {
             self.read_char();
         }
     }
+
+    fn peek(&self) -> u8 {
+        if self.read_position >= self.input.len() {
+            b'\0'
+        } else {
+            self.input[self.read_position]
+        }
+    }
 }
 
 fn keywords() -> HashMap<String, TokenType> {
@@ -139,6 +163,9 @@ fn test_next_token() {
     } else {
         return false;
     }
+
+    10 == 10;
+    10 != 9;
     ".to_string();
     let tests = vec![
         Token { token_type: TokenType::Let, literal: "let".to_string() },
@@ -206,6 +233,14 @@ fn test_next_token() {
         Token { token_type: TokenType::False, literal: "false".to_string() },
         Token { token_type: TokenType::Semicolon, literal: ";".to_string() },
         Token { token_type: TokenType::RBrace, literal: "}".to_string() },
+        Token { token_type: TokenType::Int, literal: "10".to_string() },
+        Token { token_type: TokenType::EQ, literal: "==".to_string() },
+        Token { token_type: TokenType::Int, literal: "10".to_string() },
+        Token { token_type: TokenType::Semicolon, literal: ";".to_string() },
+        Token { token_type: TokenType::Int, literal: "10".to_string() },
+        Token { token_type: TokenType::NotEQ, literal: "!=".to_string() },
+        Token { token_type: TokenType::Int, literal: "9".to_string() },
+        Token { token_type: TokenType::Semicolon, literal: ";".to_string() },
         Token { token_type: TokenType::EOF, literal: String::new() },
     ];
 
