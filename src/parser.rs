@@ -34,7 +34,7 @@ impl Parser {
 }
 
 #[test]
-fn test_let_statement() {
+fn test_let_statements() {
     let input = "
         let x = 5;
         let y = 10;
@@ -52,4 +52,19 @@ fn test_let_statement() {
         }
         None => assert!(false),
     }
+
+    let tests = vec![
+        "x",
+        "y",
+        "foobar",
+    ];
+
+    for (i, t) in tests.iter().enumerate() {
+        let stmt = program.statements[i];
+        assert!(test_let_statement(stmt, t));
+    }
+}
+
+fn test_let_statement(stmt: Statement, name: &str) bool {
+    
 }
